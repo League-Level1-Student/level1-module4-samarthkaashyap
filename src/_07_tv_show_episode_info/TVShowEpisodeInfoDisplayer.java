@@ -1,20 +1,67 @@
 package _07_tv_show_episode_info;
 
-
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
 
 public class TVShowEpisodeInfoDisplayer {
-	
-	public TVShowEpisodeInfoDisplayer() {
-		
-	}
+
+    public TVShowEpisodeInfoDisplayer() {
+        // Create a JFrame
+        JFrame frame = new JFrame("TV Show Info");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 150);
+
+        // Create a JPanel to hold the components
+        JPanel panel = new JPanel();
+        frame.add(panel);
+        placeComponents(panel);
+
+        // Set frame visibility
+        frame.setVisible(true);
+    }
+
+    private void placeComponents(JPanel panel) {
+        panel.setLayout(null);
+
+        // Label for input
+        JLabel userLabel = new JLabel("Enter TV Show:");
+        userLabel.setBounds(10, 20, 100, 25);
+        panel.add(userLabel);
+
+        // Text field for input
+        JTextField showField = new JTextField(20);
+        showField.setBounds(120, 20, 200, 25);
+        panel.add(showField);
+
+        // Button to submit
+        JButton submitButton = new JButton("Submit");
+        submitButton.setBounds(150, 60, 100, 25);
+        panel.add(submitButton);
+
+        // Action listener for the button
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String showName = showField.getText();
+                if (!showName.isEmpty()) {
+                    String showData = getShowEpisodeData(showName);
+                    if (showData.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Show not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, showData, "Message", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please enter a TV show name.", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+    }
 
 	
 	

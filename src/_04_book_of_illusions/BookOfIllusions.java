@@ -1,54 +1,78 @@
 package _04_book_of_illusions;
 
-/*
- *    Copyright (c) The League of Amazing Programmers 2013-2019
- *    Level 1
- */
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
- 
-/** We’re going to make a slideshow of cool optical illusions. When the user clicks on an illusion, a new one will be loaded. **/
 
 public class BookOfIllusions extends MouseAdapter {
 
-	// 1. Make a JFrame variable and initialize it using "new JFrame()"
+	// 1. Make a JFrame variable and initialize it
+	JFrame frame = new JFrame();
+	JLabel imageLabel;
+	String image1 = "optical1.png"; // Make sure these images are in the _04_book_of_illusions folder
+	String image2 = "optical1.png"; // Change these file names to match your image names
+	boolean showingFirstImage = true;
 
 	public void run() {
-		// 2. make the frame visible
-		// 3. set the size of the frame
-		// 4. find 2 images and save them to your project’s _06_book_of_illusions folder
-		// 5. make a variable to hold the location of your image. e.g. "illusion.jpg"
-		// 6. create a variable of type "JLabel" but don’t initialize it yet
-		// 7. use the "loadImage..." methods below to initialize your JLabel
-		// 8. add your JLabel to the frame
-		// 9. call the pack() method on the frame
-		// 10. add a mouse listener to your frame (hint: use *this*)
+		// 2. Make the frame visible
+		frame.setVisible(true);
+		
+		// 3. Set the size of the frame
+		frame.setSize(800, 600); // Adjust this size as needed
+		
+		// 4. Find 2 images and save them to your project’s _04_book_of_illusions folder
+		// (Assume images are already added in the correct location)
+
+		// 5. Make a variable to hold the location of your image
+		// This was done above with `image1` and `image2`
+
+		// 6. Create a variable of type "JLabel" but don’t initialize it yet
+		// `imageLabel` is created above but not initialized yet
+
+		// 7. Use the "loadImageFromComputer" method to initialize your JLabel
+		imageLabel = loadImageFromComputer(image1);
+
+		// 8. Add your JLabel to the frame
+		frame.add(imageLabel);
+
+		// 9. Call the pack() method on the frame
+		frame.pack();
+
+		// 10. Add a mouse listener to your frame (hint: use *this*)
+		frame.addMouseListener(this);
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		// 11. Print "clicked!" to the console when the mouse is pressed
-		// 12. remove everything from the frame that was added earlier
-		// 13. load a new image like before (this is more than one line of code)
-		// 14. pack the frame
+		System.out.println("clicked!");
+
+		// 12. Remove everything from the frame that was added earlier
+		frame.getContentPane().removeAll();
+
+		// 13. Load a new image like before (toggle between the two images)
+		if (showingFirstImage) {
+			imageLabel = loadImageFromComputer(image2);
+		} else {
+			imageLabel = loadImageFromComputer(image1);
+		}
+		showingFirstImage = !showingFirstImage; // Toggle the image
+
+		// 8. Add your JLabel to the frame again
+		frame.add(imageLabel);
+
+		// 14. Pack the frame to resize it to fit the new image
+		frame.pack();
 	}
 
-	// [OPTIONAL] 15. goad your users with some annoying or witty pop-ups
-
-	/*
-	 * To use this method, the image must be placed in your Eclipse project under "default package".
-	 */
+	// Method to load an image from the computer
 	public JLabel loadImageFromComputer(String fileName) {
 		URL imageURL = getClass().getResource(fileName);
 		Icon icon = new ImageIcon(imageURL);
 		return new JLabel(icon);
 	}
-
 }
-
-

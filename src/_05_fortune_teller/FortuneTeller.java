@@ -9,26 +9,31 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.Random;
+import java.util.Scanner;
 
 import game_tools.Sound;
 
 public class FortuneTeller extends JPanel implements Runnable, MouseListener {
 
     JFrame frame = new JFrame();
-
     int frameWidth = 500;
     int frameHeight = 500;
+    BufferedImage fortuneTellerImage;
 
+    // Constructor
     FortuneTeller() throws Exception {
         // 1. Choose an image for your fortune teller and put it in your default package
         fortuneTellerImage = ImageIO.read(getClass().getResource("fortune teller.png"));
         
         // 2. Adjust the frameWidth and frameHeight variables to fit your image nicely (doesn’t need a new line of code)
-        
+        // (Adjust frameWidth and frameHeight above if necessary to fit your image)
+
         // 3. Complete the begin() method in the FortuneTellerRunner class
-        
-        // 4. add a mouse listener to the frame
-        
+        // This instruction refers to a separate class, so we can assume begin() method in that class starts this FortuneTeller thread.
+
+        // 4. Add a mouse listener to the frame
+        frame.addMouseListener(this);
     }
 
     @Override
@@ -37,24 +42,45 @@ public class FortuneTeller extends JPanel implements Runnable, MouseListener {
         int mouseY = e.getY();
         
         // 5. Print the mouseX variable
-        
         // 6. Add the mouseY variable to the previous line so that it prints out too (no new line)
-        
-        // 7. Adjust your secret location co-ordinates here:
-        int secretLocationX = 0;
-        int secretLocationY = 0;
-        
-        // If the mouse co-ordinates and secret location are close, we'll let them ask a question.
+        System.out.println("Mouse coordinates: (" + mouseX + ", " + mouseY + ")");
+
+        // 7. Adjust your secret location coordinates here
+        int secretLocationX = 250; // Set these coordinates to wherever the "secret location" should be
+        int secretLocationY = 250;
+
+        // If the mouse coordinates and secret location are close, allow the user to ask a question.
         if (areClose(mouseX, secretLocationX) && areClose(mouseY, secretLocationY)) {
             // 8. Find a spooky sound and put it in your _05_fortune_teller package (freesound.org)
-            //    play("creepy-noise.wav");
-            
-            // 9. Play the sound
-            
-            // 10. Insert your completed Magic 8 ball code here
-            
-        }
+            // For example, "creepy-noise.wav"
 
+            // 9. Play the sound
+            play("creepy-noise.wav");
+
+            // 10. Insert your completed Magic 8 ball code here
+            magic8Ball();
+        }
+    }
+
+    private void magic8Ball() {
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(4);
+
+        // Get user question
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ask a question for the Magic 8 Ball: ");
+        scanner.nextLine(); // Read and ignore the question since we're just simulating the response.
+
+        // Respond based on the random number
+        if (randomNumber == 0) {
+            System.out.println("Yes");
+        } else if (randomNumber == 1) {
+            System.out.println("No");
+        } else if (randomNumber == 2) {
+            System.out.println("Maybe you should ask Google?");
+        } else if (randomNumber == 3) {
+            System.out.println("I’m not sure, try again later.");
+        }
     }
 
     private boolean areClose(int mouseX, int secretLocationX) {
@@ -71,8 +97,6 @@ public class FortuneTeller extends JPanel implements Runnable, MouseListener {
 
     /**************** don't worry about the stuff under here *******************/
 
-    BufferedImage fortuneTellerImage;
-
     @Override
     public void run() {
         frame.add(this);
@@ -83,8 +107,7 @@ public class FortuneTeller extends JPanel implements Runnable, MouseListener {
         frame.setVisible(true);
     }
 
-    public static synchronized void play(final String fileName)
-    {
+    public static synchronized void play(final String fileName) {
         Sound sound = new Sound("_05_fortune_teller/" + fileName);
         sound.play();
     }
@@ -114,9 +137,4 @@ public class FortuneTeller extends JPanel implements Runnable, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {}
-
 }
-
-
-
-
